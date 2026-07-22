@@ -9,6 +9,8 @@ const fileContent = fs.readFileSync(filePath, 'utf8');
 
 const parseRegex = /import\s*\{[^}]*router\s+as\s+(\w+)[^}]*\}\s*from\s*['"]\.\/([^/]+)\/.*['"]/;
 
+const searchString = /^[ \t]*import\b.*from\s+['"]\.[^'"]*['"];/gm;
+
 const k1 = defaultFunc({
     fileContent, parseRegex,
     inShowLog: false,
