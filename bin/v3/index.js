@@ -1,4 +1,4 @@
-import pullImportLines from "pattern-collector-routesjs-pull-lines";
+import pullImportLines from "pattern-collector-anyjs-pull-lines";
 import buildStory from "pattern-collector-routesjs-build-story";
 
 const startFunc = ({ fileContent, parseRegex,

@@ -1,6 +1,6 @@
 {
   "name": "pattern-collector-anyjs",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "A high-performance pattern collector and ESM import statement analyzer.",
   "keywords": [
     "pattern",
@@ -12,7 +12,7 @@
     "extractor"
   ],
   "dependencies": {
-    "pattern-collector-routesjs-pull-lines": "^1.7.1",
+    "pattern-collector-anyjs-pull-lines": "^1.2.1",
     "pattern-collector-routesjs-build-story": "^1.4.1"
   },
   "type": "module",
