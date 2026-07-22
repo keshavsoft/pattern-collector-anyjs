@@ -1,6 +1,6 @@
 {
-  "name": "pattern-collector-routesjs",
-  "version": "1.5.2",
+  "name": "pattern-collector-anyjs",
+  "version": "1.2.1",
   "description": "A high-performance pattern collector and ESM import statement analyzer.",
   "keywords": [
     "pattern",
@@ -25,12 +25,12 @@
     "README.md",
     "LICENSE"
   ],
-  "homepage": "https://github.com/keshavsoft/pattern-collector-routesjs#readme",
+  "homepage": "https://github.com/keshavsoft/pattern-collector-anyjs#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/keshavsoft/pattern-collector-routesjs"
+    "url": "https://github.com/keshavsoft/pattern-collector-anyjs"
   },
   "bugs": {
-    "url": "https://github.com/keshavsoft/pattern-collector-routesjs/issues"
+    "url": "https://github.com/keshavsoft/pattern-collector-anyjs/issues"
   }
 }
