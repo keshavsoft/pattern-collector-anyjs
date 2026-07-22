@@ -1,0 +1,36 @@
+{
+  "name": "pattern-collector-routesjs",
+  "version": "1.5.2",
+  "description": "A high-performance pattern collector and ESM import statement analyzer.",
+  "keywords": [
+    "pattern",
+    "regex",
+    "parser",
+    "import",
+    "analyzer",
+    "esm",
+    "extractor"
+  ],
+  "dependencies": {
+    "pattern-collector-routesjs-pull-lines": "^1.7.1",
+    "pattern-collector-routesjs-build-story": "^1.4.1"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./index.js"
+  },
+  "files": [
+    "bin/",
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "homepage": "https://github.com/keshavsoft/pattern-collector-routesjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keshavsoft/pattern-collector-routesjs"
+  },
+  "bugs": {
+    "url": "https://github.com/keshavsoft/pattern-collector-routesjs/issues"
+  }
+}
