@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Repository Directory | pattern-collector ecosystem</title>
+   
+   <!-- Google Fonts -->
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+   <style>
+      :root {
+         --bg-base: #030712;
+         --bg-card: #0f172a;
+         --bg-hover: #1e293b;
+         --border-color: #334155;
+         --text-primary: #f8fafc;
+         --text-secondary: #cbd5e1;
+         --text-muted: #94a3b8;
+         --accent: #38bdf8;
+         --accent-secondary: #818cf8;
+         --accent-glow: rgba(56, 189, 248, 0.12);
+         --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+      }
+
+      * {
+         box-sizing: border-box;
+         margin: 0;
+         padding: 0;
+      }
+
+      body {
+         font-family: 'Inter', sans-serif;
+         background: var(--bg-base);
+         color: var(--text-primary);
+         line-height: 1.7;
+         padding-bottom: 80px;
+         background-image: 
+            radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.04) 0%, transparent 40%),
+            radial-gradient(circle at 90% 80%, rgba(129, 140, 248, 0.04) 0%, transparent 40%);
+         background-attachment: fixed;
+         overflow-x: hidden;
+      }
+
+      .container {
+         width: 92%;
+         max-width: 1200px;
+         margin: auto;
+         padding: 20px 0;
+      }
+
+      /* Navbar */
+      nav {
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         border-bottom: 1px solid var(--border-color);
+         padding: 20px 0;
+         margin-bottom: 40px;
+         backdrop-filter: blur(12px);
+      }
+
+      .logo {
+         font-size: 20px;
+         font-weight: 800;
+         color: var(--text-primary);
+         display: flex;
+         align-items: center;
+         gap: 8px;
+         text-decoration: none;
+         letter-spacing: -0.5px;
+      }
+
+      .logo span {
+         background: var(--accent-gradient);
+         -webkit-background-clip: text;
+         -webkit-text-fill-color: transparent;
+      }
+
+      .nav-links {
+         display: flex;
+         gap: 24px;
+         align-items: center;
+      }
+
+      .back-btn {
+         background: var(--bg-card);
+         border: 1px solid var(--border-color);
+         color: var(--accent);
+         padding: 6px 14px;
+         border-radius: 8px;
+         font-size: 13px;
+         font-weight: 600;
+         text-decoration: none;
+         display: inline-flex;
+         align-items: center;
+         gap: 6px;
+         transition: all 0.2s ease;
+      }
+
+      .back-btn:hover {
+         border-color: var(--accent);
+         background: var(--bg-hover);
+      }
+
+      /* Header info */
+      .header-section {
+         margin-bottom: 40px;
+         text-align: center;
+      }
+
+      .header-section h1 {
+         font-size: 38px;
+         font-weight: 800;
+         margin-bottom: 12px;
+         letter-spacing: -1px;
+         background: var(--accent-gradient);
+         -webkit-background-clip: text;
+         -webkit-text-fill-color: transparent;
+      }
+
+      .header-section p {
+         color: var(--text-secondary);
+         font-size: 16px;
+         max-width: 700px;
+         margin: 0 auto;
+         font-weight: 300;
+      }
+
+      /* Grid of Repo Cards */
+      .repos-grid {
+         display: grid;
+         grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+         gap: 24px;
+      }
+
+      .repo-card {
+         background: var(--bg-card);
+         border: 1px solid var(--border-color);
+         border-radius: 16px;
+         padding: 24px;
+         display: flex;
+         flex-direction: column;
+         justify-content: space-between;
+         transition: all 0.3s ease;
+         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+         position: relative;
+         overflow: hidden;
+      }
+
+      .repo-card::before {
+         content: '';
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 4px;
+         background: var(--accent-gradient);
+         opacity: 0;
+         transition: opacity 0.3s ease;
+      }
+
+      .repo-card:hover {
+         border-color: var(--accent);
+         transform: translateY(-2px);
+         box-shadow: 0 10px 25px rgba(56, 189, 248, 0.1);
+      }
+
+      .repo-card:hover::before {
+         opacity: 1;
+      }
+
+      .repo-header {
+         display: flex;
+         justify-content: space-between;
+         align-items: flex-start;
+         margin-bottom: 12px;
+         gap: 12px;
+      }
+
+      .repo-name {
+         font-family: 'Fira Code', monospace;
+         font-size: 16px;
+         font-weight: 700;
+         color: var(--text-primary);
+         word-break: break-all;
+      }
+
+      .role-badge {
+         font-size: 10px;
+         text-transform: uppercase;
+         letter-spacing: 0.5px;
+         font-weight: 700;
+         padding: 2px 8px;
+         border-radius: 9999px;
+         white-space: nowrap;
+      }
+
+      .role-root {
+         background: rgba(129, 140, 248, 0.15);
+         border: 1px solid rgba(129, 140, 248, 0.3);
+         color: var(--accent-secondary);
+      }
+
+      .role-dep {
+         background: rgba(56, 189, 248, 0.15);
+         border: 1px solid rgba(56, 189, 248, 0.3);
+         color: var(--accent);
+      }
+
+      .role-core {
+         background: rgba(52, 211, 153, 0.15);
+         border: 1px solid rgba(52, 211, 153, 0.3);
+         color: #34d399;
+      }
+
+      .repo-desc {
+         font-size: 13.5px;
+         color: var(--text-secondary);
+         margin-bottom: 20px;
+         line-height: 1.6;
+         flex-grow: 1;
+      }
+
+      .install-box {
+         background: #060913;
+         border: 1px solid var(--border-color);
+         border-radius: 8px;
+         padding: 10px;
+         font-family: 'Fira Code', monospace;
+         font-size: 12px;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         margin-bottom: 16px;
+      }
+
+      .copy-icon {
+         background: transparent;
+         border: none;
+         color: var(--text-muted);
+         cursor: pointer;
+         transition: color 0.2s ease;
+         display: flex;
+         align-items: center;
+      }
+
+      .copy-icon:hover {
+         color: var(--text-primary);
+      }
+
+      .repo-links {
+         display: flex;
+         gap: 15px;
+         border-top: 1px solid var(--border-color);
+         padding-top: 15px;
+         font-size: 13px;
+      }
+
+      .repo-links a {
+         color: var(--accent);
+         text-decoration: none;
+         font-weight: 500;
+         display: flex;
+         align-items: center;
+         gap: 4px;
+         transition: color 0.2s ease;
+      }
+
+      .repo-links a:hover {
+         color: var(--text-primary);
+         text-decoration: underline;
+      }
+
+      svg {
+         fill: currentColor;
+      }
+
+      /* Footer */
+      footer {
+         text-align: center;
+         margin-top: 80px;
+         color: var(--text-muted);
+         font-size: 14px;
+         border-top: 1px solid var(--border-color);
+         padding-top: 30px;
+      }
+
+      footer a {
+         color: var(--accent);
+         text-decoration: none;
+      }
+   </style>
+</head>
+
+<body>
+   <div class="container">
+      <nav>
+         <a href="#" class="logo">
+            <span>pattern-collector</span> 🔍
+         </a>
+         <div class="nav-links">
+            <a href="dependencies.html" style="color: var(--accent); font-size: 14px; font-weight: 500; text-decoration: none; margin-right: 15px; display: inline-flex; align-items: center;">Dependency Explorer</a>
+            <a href="index.html" class="back-btn">
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+               Back to Docs
+            </a>
+         </div>
+      </nav>
+
+      <div class="header-section">
+         <h1>Ecosystem Repositories</h1>
+         <p>Comprehensive directory of code repositories, module descriptions, install commands, and release scopes in the pattern-collector library group.</p>
+      </div>
+
+      <div class="repos-grid">
+         
+         <!-- Repo 1: pattern-collector-anyjs -->
+         <div class="repo-card">
+            <div>
+               <div class="repo-header">
+                  <span class="repo-name">pattern-collector-anyjs</span>
+                  <span class="role-badge role-root">Root package</span>
+               </div>
+               <p class="repo-desc">
+                  The primary application static analyzer. Inspects Express route imports, cross-references declarations, audits registration mounts, and builds the complete registration stories.
+               </p>
+            </div>
+            <div>
+               <div class="install-box">
+                  <span>npm install pattern-collector-anyjs</span>
+                  <button class="copy-icon" onclick="copyText('npm install pattern-collector-anyjs')">
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                  </button>
+               </div>
+               <div class="repo-links">
+                  <a href="https://github.com/keshavsoft/pattern-collector-anyjs" target="_blank">GitHub Repo &rarr;</a>
+                  <a href="https://www.npmjs.com/package/pattern-collector-anyjs" target="_blank">NPM Page &rarr;</a>
+               </div>
+            </div>
+         </div>
+
+         <!-- Repo 2: pattern-collector-anyjs-pull-lines -->
+         <div class="repo-card">
+            <div>
+               <div class="repo-header">
+                  <span class="repo-name">pattern-collector-anyjs-pull-lines</span>
+                  <span class="role-badge role-dep">Direct Dep</span>
+               </div>
+               <p class="repo-desc">
+                  Scans target source files globally to locate ESM imports and usage matching regular expression structures. Identifies exact line contents and relative line numbers.
+               </p>
+            </div>
+            <div>
+               <div class="install-box">
+                  <span>npm install pattern-collector-anyjs-pull-lines</span>
+                  <button class="copy-icon" onclick="copyText('npm install pattern-collector-anyjs-pull-lines')">
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                  </button>
+               </div>
+               <div class="repo-links">
+                  <a href="https://github.com/keshavsoft/pattern-collector-anyjs-pull-lines" target="_blank">GitHub Repo &rarr;</a>
+                  <a href="https://www.npmjs.com/package/pattern-collector-anyjs-pull-lines" target="_blank">NPM Page &rarr;</a>
+               </div>
+            </div>
+         </div>
+
+         <!-- Repo 3: pattern-collector-anyjs-build-story -->
+         <div class="repo-card">
+            <div>
+               <div class="repo-header">
+                  <span class="repo-name">pattern-collector-anyjs-build-story</span>
+                  <span class="role-badge role-dep">Direct Dep</span>
+               </div>
+               <p class="repo-desc">
+                  Aggregates lists of imported route modules and registered use routes, auditing declarations to build the JSON verification story (unused imports/missing declarations).
+               </p>
+            </div>
+            <div>
+               <div class="install-box">
+                  <span>npm install pattern-collector-anyjs-build-story</span>
+                  <button class="copy-icon" onclick="copyText('npm install pattern-collector-anyjs-build-story')">
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                  </button>
+               </div>
+               <div class="repo-links">
+                  <a href="https://github.com/keshavsoft/pattern-collector-anyjs-build-story" target="_blank">GitHub Repo &rarr;</a>
+                  <a href="https://www.npmjs.com/package/pattern-collector-anyjs-build-story" target="_blank">NPM Page &rarr;</a>
+               </div>
+            </div>
+         </div>
+
+         <!-- Repo 4: pattern-collector-anyjs-extract -->
+         <div class="repo-card">
+            <div>
+               <div class="repo-header">
+                  <span class="repo-name">pattern-collector-anyjs-extract</span>
+                  <span class="role-badge role-dep">Transitive Dep</span>
+               </div>
+               <p class="repo-desc">
+                  Core static code extractor. Takes the results of file-level regex scans and maps their elements through structural extraction criteria to compile clean arrays.
+               </p>
+            </div>
+            <div>
+               <div class="install-box">
+                  <span>npm install pattern-collector-anyjs-extract</span>
+                  <button class="copy-icon" onclick="copyText('npm install pattern-collector-anyjs-extract')">
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                  </button>
+               </div>
+               <div class="repo-links">
+                  <a href="https://github.com/keshavsoft/pattern-collector-anyjs-extract" target="_blank">GitHub Repo &rarr;</a>
+                  <a href="https://www.npmjs.com/package/pattern-collector-anyjs-extract" target="_blank">NPM Page &rarr;</a>
+               </div>
+            </div>
+         </div>
+
+         <!-- Repo 5: pattern-collector-anyjs-matches -->
+         <div class="repo-card">
+            <div>
+               <div class="repo-header">
+                  <span class="repo-name">pattern-collector-anyjs-matches</span>
+                  <span class="role-badge role-dep">Transitive Dep</span>
+               </div>
+               <p class="repo-desc">
+                  Safe wrapper helper. Safely queries matching occurrences for RegExp filters in files while gracefully handling potential parse anomalies.
+               </p>
+            </div>
+            <div>
+               <div class="install-box">
+                  <span>npm install pattern-collector-anyjs-matches</span>
+                  <button class="copy-icon" onclick="copyText('npm install pattern-collector-anyjs-matches')">
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                  </button>
+               </div>
+               <div class="repo-links">
+                  <a href="https://github.com/keshavsoft/pattern-collector-anyjs-matches" target="_blank">GitHub Repo &rarr;</a>
+                  <a href="https://www.npmjs.com/package/pattern-collector-anyjs-matches" target="_blank">NPM Page &rarr;</a>
+               </div>
+            </div>
+         </div>
+
+         <!-- Repo 6: pattern-collector-base-regex -->
+         <div class="repo-card">
+            <div>
+               <div class="repo-header">
+                  <span class="repo-name">pattern-collector-base-regex</span>
+                  <span class="role-badge role-dep">Transitive Dep</span>
+               </div>
+               <p class="repo-desc">
+                  Base utilities to parse structural capture group details (like alias variable names or directory paths) from individual match lines.
+               </p>
+            </div>
+            <div>
+               <div class="install-box">
+                  <span>npm install pattern-collector-base-regex</span>
+                  <button class="copy-icon" onclick="copyText('npm install pattern-collector-base-regex')">
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                  </button>
+               </div>
+               <div class="repo-links">
+                  <a href="https://github.com/keshavsoft/pattern-collector-base-regex" target="_blank">GitHub Repo &rarr;</a>
+                  <a href="https://www.npmjs.com/package/pattern-collector-base-regex" target="_blank">NPM Page &rarr;</a>
+               </div>
+            </div>
+         </div>
+
+         <!-- Repo 7: pattern-collector -->
+         <div class="repo-card" style="grid-column: 1 / -1;">
+            <div>
+               <div class="repo-header">
+                  <span class="repo-name">pattern-collector</span>
+                  <span class="role-badge role-core">Core Engine (Common ancestor)</span>
+               </div>
+               <p class="repo-desc">
+                  The primary core matching engine. Loops through file code arrays, recursively executing pattern search structures, tracking coordinates, and gathering details.
+               </p>
+            </div>
+            <div>
+               <div class="install-box">
+                  <span>npm install pattern-collector</span>
+                  <button class="copy-icon" onclick="copyText('npm install pattern-collector')">
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                  </button>
+               </div>
+               <div class="repo-links">
+                  <a href="https://github.com/keshavsoft/pattern-collector" target="_blank">GitHub Repo &rarr;</a>
+                  <a href="https://www.npmjs.com/package/pattern-collector" target="_blank">NPM Page &rarr;</a>
+               </div>
+            </div>
+         </div>
+
+      </div>
+
+      <footer>
+         <p>MIT Licensed | Developed by <a href="https://github.com/keshavsoft" target="_blank">KeshavSoft</a></p>
+      </footer>
+   </div>
+
+   <script>
+      function copyText(text) {
+         navigator.clipboard.writeText(text).then(() => {
+            alert('Copied install command: ' + text);
+         });
+      }
+   </script>
+</body>
+
+</html>

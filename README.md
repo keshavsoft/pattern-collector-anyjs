@@ -8,7 +8,7 @@
 🔗 **Quick Links:**
 *   📦 **NPM Registry**: [npmjs.com/package/pattern-collector-anyjs](https://www.npmjs.com/package/pattern-collector-anyjs)
 *   💻 **GitHub Repo**: [github.com/keshavsoft/pattern-collector-anyjs](https://github.com/keshavsoft/pattern-collector-anyjs)
-*   🌐 **Live Documentation**: [keshavsoft.github.io/pattern-collector-anyjs](https://keshavsoft.github.io/pattern-collector-anyjs/)
+*   🌐 **Live Documentation**: [keshavsoft.github.io/pattern-collector-anyjs/docs/index.html](https://keshavsoft.github.io/pattern-collector-anyjs/docs/index.html)
 
 ---
 
