@@ -12,7 +12,7 @@ const parseRegex = /import\s*\{[^}]*router\s+as\s+(\w+)[^}]*\}\s*from\s*['"]\.\/
 const searchString = /^[ \t]*import\b.*from\s+['"]\.[^'"]*['"];/gm;
 
 const k1 = defaultFunc({
-    fileContent, parseRegex,
+    fileContent, parseRegex, searchRegex: searchString,
     inShowLog: false,
     showLogStep1: false, showLogStep2: false
 });
