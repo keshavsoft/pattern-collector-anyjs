@@ -13,7 +13,8 @@ const k1 = defaultFunc({
     fileContent,
     extractRegex,
     showLog: false,
-    showLogStep1: false
+    showLogStep1: false,
+    showLogStep2: false
 });
 
 console.log("ssssssssss : ", k1);
