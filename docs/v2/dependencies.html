@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Dependency Explorer | pattern-collector-anyjs</title>
+   
+   <!-- Google Fonts -->
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+   <style>
+      :root {
+         --bg-base: #030712;
+         --bg-card: #0f172a;
+         --bg-hover: #1e293b;
+         --border-color: #334155;
+         --text-primary: #f8fafc;
+         --text-secondary: #cbd5e1;
+         --text-muted: #94a3b8;
+         --accent: #38bdf8;
+         --accent-secondary: #818cf8;
+         --accent-glow: rgba(56, 189, 248, 0.12);
+         --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+         --success: #34d399;
+         --warning: #fbbf24;
+      }
+
+      * {
+         box-sizing: border-box;
+         margin: 0;
+         padding: 0;
+      }
+
+      body {
+         font-family: 'Inter', sans-serif;
+         background: var(--bg-base);
+         color: var(--text-primary);
+         line-height: 1.7;
+         padding-bottom: 80px;
+         background-image: 
+            radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.04) 0%, transparent 40%),
+            radial-gradient(circle at 90% 80%, rgba(129, 140, 248, 0.04) 0%, transparent 40%);
+         background-attachment: fixed;
+         overflow-x: hidden;
+      }
+
+      .container {
+         width: 92%;
+         max-width: 1200px;
+         margin: auto;
+         padding: 20px 0;
+      }
+
+      /* Navbar */
+      nav {
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         border-bottom: 1px solid var(--border-color);
+         padding: 20px 0;
+         margin-bottom: 40px;
+         backdrop-filter: blur(12px);
+      }
+
+      .logo {
+         font-size: 20px;
+         font-weight: 800;
+         color: var(--text-primary);
+         display: flex;
+         align-items: center;
+         gap: 8px;
+         text-decoration: none;
+         letter-spacing: -0.5px;
+      }
+
+      .logo span {
+         background: var(--accent-gradient);
+         -webkit-background-clip: text;
+         -webkit-text-fill-color: transparent;
+      }
+
+      .nav-links {
+         display: flex;
+         gap: 24px;
+         align-items: center;
+      }
+
+      .nav-links a {
+         color: var(--text-secondary);
+         text-decoration: none;
+         font-size: 14px;
+         font-weight: 500;
+         transition: color 0.2s ease;
+      }
+
+      .nav-links a:hover {
+         color: var(--accent);
+      }
+
+      .back-btn {
+         background: var(--bg-card);
+         border: 1px solid var(--border-color);
+         color: var(--accent);
+         padding: 6px 14px;
+         border-radius: 8px;
+         font-size: 13px;
+         font-weight: 600;
+         text-decoration: none;
+         display: inline-flex;
+         align-items: center;
+         gap: 6px;
+         transition: all 0.2s ease;
+      }
+
+      .back-btn:hover {
+         border-color: var(--accent);
+         background: var(--bg-hover);
+      }
+
+      /* Header info */
+      .header-section {
+         margin-bottom: 40px;
+      }
+
+      .header-section h1 {
+         font-size: 36px;
+         font-weight: 800;
+         margin-bottom: 12px;
+         letter-spacing: -1px;
+         background: var(--accent-gradient);
+         -webkit-background-clip: text;
+         -webkit-text-fill-color: transparent;
+      }
+
+      .header-section p {
+         color: var(--text-secondary);
+         font-size: 16px;
+         max-width: 800px;
+         font-weight: 300;
+      }
+
+      /* Split Layout */
+      .explorer-layout {
+         display: grid;
+         grid-template-columns: 1fr;
+         gap: 30px;
+      }
+
+      @media(min-width: 992px) {
+         .explorer-layout {
+            grid-template-columns: 3fr 2fr;
+         }
+      }
+
+      /* Visual Canvas */
+      .canvas-card {
+         background: var(--bg-card);
+         border: 1px solid var(--border-color);
+         border-radius: 20px;
+         padding: 30px;
+         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+         display: flex;
+         flex-direction: column;
+         gap: 20px;
+         position: relative;
+         min-height: 650px;
+         overflow: hidden;
+      }
+
+      .canvas-title {
+         font-size: 18px;
+         font-weight: 700;
+         color: var(--text-primary);
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         border-bottom: 1px solid var(--border-color);
+         padding-bottom: 15px;
+      }
+
+      .search-bar {
+         width: 100%;
+         background: #060913;
+         border: 1px solid var(--border-color);
+         border-radius: 10px;
+         padding: 12px 16px;
+         color: var(--text-primary);
+         font-size: 14px;
+         outline: none;
+         transition: border-color 0.2s ease;
+      }
+
+      .search-bar:focus {
+         border-color: var(--accent);
+      }
+
+      /* Tree Rendering */
+      .tree-container {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         gap: 40px;
+         padding: 20px 0;
+         position: relative;
+      }
+
+      .tree-level {
+         display: flex;
+         justify-content: center;
+         gap: 40px;
+         width: 100%;
+         position: relative;
+      }
+
+      .node-card {
+         background: #080d1a;
+         border: 1px solid var(--border-color);
+         border-radius: 12px;
+         padding: 16px 20px;
+         width: 250px;
+         cursor: pointer;
+         transition: all 0.3s ease;
+         position: relative;
+         z-index: 10;
+         box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+         text-align: center;
+      }
+
+      .node-card:hover, .node-card.selected {
+         border-color: var(--accent);
+         background: var(--accent-glow);
+         transform: translateY(-2px);
+         box-shadow: 0 8px 25px rgba(56, 189, 248, 0.15);
+      }
+
+      .node-card.root-node {
+         border-color: var(--accent-secondary);
+         background: rgba(129, 140, 248, 0.08);
+      }
+
+      .node-card.root-node:hover, .node-card.root-node.selected {
+         border-color: var(--accent-secondary);
+         background: rgba(129, 140, 248, 0.15);
+         box-shadow: 0 8px 25px rgba(129, 140, 248, 0.15);
+      }
+
+      .node-title {
+         font-family: 'Fira Code', monospace;
+         font-size: 13px;
+         font-weight: 600;
+         color: var(--text-primary);
+         word-break: break-all;
+         margin-bottom: 6px;
+      }
+
+      .node-card.selected .node-title {
+         color: var(--accent);
+      }
+
+      .node-card.root-node.selected .node-title {
+         color: var(--accent-secondary);
+      }
+
+      .node-version {
+         display: inline-block;
+         font-size: 11px;
+         background: var(--bg-hover);
+         padding: 1px 6px;
+         border-radius: 4px;
+         color: var(--text-muted);
+         font-weight: 500;
+      }
+
+      /* Connections using SVG lines overlay */
+      .svg-overlay {
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         pointer-events: none;
+         z-index: 1;
+      }
+
+      .connection-line {
+         stroke: var(--border-color);
+         stroke-width: 2;
+         fill: none;
+         transition: stroke 0.3s ease, stroke-width 0.3s ease;
+      }
+
+      .connection-line.highlighted {
+         stroke: var(--accent);
+         stroke-width: 3;
+      }
+
+      /* Detail Sidebar Card */
+      .detail-card {
+         background: var(--bg-card);
+         border: 1px solid var(--border-color);
+         border-radius: 20px;
+         padding: 35px;
+         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+         display: flex;
+         flex-direction: column;
+         gap: 25px;
+      }
+
+      .detail-header {
+         border-bottom: 1px solid var(--border-color);
+         padding-bottom: 20px;
+      }
+
+      .detail-name {
+         font-family: 'Fira Code', monospace;
+         font-size: 20px;
+         font-weight: 700;
+         color: var(--accent);
+         word-break: break-all;
+         margin-bottom: 8px;
+      }
+
+      .detail-desc {
+         font-size: 14.5px;
+         color: var(--text-secondary);
+         font-weight: 300;
+         margin-bottom: 15px;
+      }
+
+      .detail-tags {
+         display: flex;
+         gap: 8px;
+         flex-wrap: wrap;
+      }
+
+      .tag {
+         font-size: 11.5px;
+         background: var(--bg-hover);
+         border: 1px solid var(--border-color);
+         padding: 2px 8px;
+         border-radius: 6px;
+         color: var(--text-muted);
+      }
+
+      .meta-list {
+         display: flex;
+         flex-direction: column;
+         gap: 15px;
+      }
+
+      .meta-item {
+         display: flex;
+         flex-direction: column;
+         gap: 5px;
+      }
+
+      .meta-label {
+         font-size: 11px;
+         font-weight: 700;
+         color: var(--text-muted);
+         text-transform: uppercase;
+         letter-spacing: 0.5px;
+      }
+
+      .meta-value {
+         font-size: 14px;
+         color: var(--text-primary);
+         word-break: break-all;
+      }
+
+      .meta-value a {
+         color: var(--accent);
+         text-decoration: none;
+         font-weight: 500;
+      }
+
+      .meta-value a:hover {
+         text-decoration: underline;
+      }
+
+      /* Code block in details */
+      .code-box {
+         background: #060913;
+         border: 1px solid var(--border-color);
+         border-radius: 8px;
+         padding: 14px;
+         font-family: 'Fira Code', monospace;
+         font-size: 12.5px;
+         overflow-x: auto;
+         position: relative;
+      }
+
+      /* Footer */
+      footer {
+         text-align: center;
+         margin-top: 80px;
+         color: var(--text-muted);
+         font-size: 14px;
+         border-top: 1px solid var(--border-color);
+         padding-top: 30px;
+      }
+
+      footer a {
+         color: var(--accent);
+         text-decoration: none;
+      }
+   </style>
+</head>
+
+<body>
+   <div class="container">
+      <nav>
+         <a href="#" class="logo">
+            <span>pattern-collector</span> 🔍
+         </a>
+         <div class="nav-links">
+            <a href="repos.html" style="color: var(--accent); font-size: 14px; font-weight: 500; text-decoration: none; margin-right: 15px; display: inline-flex; align-items: center;">Repository Directory</a>
+            <a href="index.html" class="back-btn">
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+               Back to Docs
+            </a>
+         </div>
+      </nav>
+
+      <div class="header-section">
+         <h1>NPM Dependency Explorer</h1>
+         <p>Interactive visualization of dependencies and sub-dependencies showing version trees, descriptors, and repository sources.</p>
+      </div>
+
+      <div class="explorer-layout">
+         <!-- Left Side: Interactive Tree Canvas -->
+         <div class="canvas-card">
+            <div class="canvas-title">
+               Dependency Visualizer Tree
+               <span style="font-size: 12px; font-weight: 400; color: var(--text-muted);">Click nodes to explore details</span>
+            </div>
+
+            <input type="text" id="tree-search" class="search-bar" placeholder="Search packages by name or keywords..." oninput="filterTree()">
+
+            <!-- SVG layer for connector lines -->
+            <svg class="svg-overlay" id="tree-svg"></svg>
+
+            <!-- Tree levels container -->
+            <div class="tree-container">
+               <!-- Level 0: Root -->
+               <div class="tree-level">
+                  <div class="node-card root-node selected" id="node-root" onclick="selectPackage('root')">
+                     <div class="node-title">pattern-collector-anyjs</div>
+                     <span class="node-version">v1.5.2</span>
+                  </div>
+               </div>
+
+               <!-- Level 1: Direct Dependencies -->
+               <div class="tree-level">
+                  <div class="node-card" id="node-pull-lines" onclick="selectPackage('pull-lines')">
+                     <div class="node-title">pattern-collector-anyjs-pull-lines</div>
+                     <span class="node-version">v1.5.3</span>
+                  </div>
+                  <div class="node-card" id="node-build-story" onclick="selectPackage('build-story')">
+                     <div class="node-title">pattern-collector-anyjs-build-story</div>
+                     <span class="node-version">v1.2.1</span>
+                  </div>
+               </div>
+
+               <!-- Level 2: Transitive Dependency -->
+               <div class="tree-level">
+                  <div class="node-card" id="node-extract" onclick="selectPackage('extract')">
+                     <div class="node-title">pattern-collector-anyjs-extract</div>
+                     <span class="node-version">v1.2.2</span>
+                  </div>
+               </div>
+
+               <!-- Level 3: Sub Dependencies -->
+               <div class="tree-level">
+                  <div class="node-card" id="node-matches" onclick="selectPackage('matches')">
+                     <div class="node-title">pattern-collector-anyjs-matches</div>
+                     <span class="node-version">v1.2.1</span>
+                  </div>
+                  <div class="node-card" id="node-base-regex" onclick="selectPackage('base-regex')">
+                     <div class="node-title">pattern-collector-base-regex</div>
+                     <span class="node-version">v1.2.1</span>
+                  </div>
+               </div>
+
+               <!-- Level 4: Leaf Dependency -->
+               <div class="tree-level">
+                  <div class="node-card" id="node-collector" onclick="selectPackage('collector')">
+                     <div class="node-title">pattern-collector</div>
+                     <span class="node-version">v1.5.10</span>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <!-- Right Side: Details Card -->
+         <div class="detail-card">
+            <div class="detail-header">
+               <div class="detail-name" id="detail-name">pattern-collector-anyjs</div>
+               <div class="detail-desc" id="detail-desc">pull lines and build story for any js from supplied regex</div>
+               <div class="detail-tags" id="detail-tags">
+                  <span class="tag">pattern</span>
+                  <span class="tag">regex</span>
+                  <span class="tag">parser</span>
+                  <span class="tag">import</span>
+               </div>
+            </div>
+
+            <div class="meta-list">
+               <div class="meta-item">
+                  <span class="meta-label">Version Installed</span>
+                  <span class="meta-value" id="detail-version">v1.5.2</span>
+               </div>
+
+               <div class="meta-item">
+                  <span class="meta-label">Dependency Scope</span>
+                  <span class="meta-value" id="detail-scope">Root Project</span>
+               </div>
+
+               <div class="meta-item">
+                  <span class="meta-label">Package Entry Point</span>
+                  <span class="meta-value" style="font-family: 'Fira Code', monospace;" id="detail-entry">import patternCollectorAnyJS from 'pattern-collector-anyjs'</span>
+               </div>
+
+               <div class="meta-item">
+                  <span class="meta-label">GitHub Repository</span>
+                  <span class="meta-value" id="detail-repo">
+                     <a href="https://github.com/keshavsoft/pattern-collector-anyjs" target="_blank" id="detail-repo-link">github.com/keshavsoft/pattern-collector-anyjs</a>
+                  </span>
+               </div>
+
+               <div class="meta-item">
+                  <span class="meta-label">How to Install</span>
+                  <div class="code-box">
+                     <span id="detail-install">npm install pattern-collector-anyjs</span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <footer>
+         <p>MIT Licensed | Developed by <a href="https://github.com/keshavsoft" target="_blank">KeshavSoft</a></p>
+      </footer>
+   </div>
+
+   <script>
+      // Full database of packages in the dependency chain
+      const packageDb = {
+         'root': {
+            name: 'pattern-collector-anyjs',
+            version: 'v1.5.2',
+            desc: 'A high-performance pattern collector and ESM import statement analyzer for JavaScript, specializing in analyzing and mapping Express router imports to their registrations.',
+            tags: ['pattern', 'regex', 'parser', 'import', 'analyzer', 'esm', 'extractor'],
+            scope: 'Root Project (This Repository)',
+            entry: 'import patternCollectorAnyJS from \'pattern-collector-anyjs\'',
+            repo: 'https://github.com/keshavsoft/pattern-collector-anyjs',
+            repoName: 'github.com/keshavsoft/pattern-collector-anyjs',
+            install: 'npm install pattern-collector-anyjs',
+            connections: ['pull-lines', 'build-story']
+         },
+         'pull-lines': {
+            name: 'pattern-collector-anyjs-pull-lines',
+            version: 'v1.5.3',
+            desc: 'A powerful, configurable tool to scan JavaScript/ESM files and pull structured line matches using custom regular expressions.',
+            tags: ['pattern', 'regex', 'parser', 'import', 'analyzer', 'esm', 'extractor'],
+            scope: 'Direct Dependency (1st level)',
+            entry: 'import pullLines from \'pattern-collector-anyjs-pull-lines\'',
+            repo: 'https://github.com/keshavsoft/pattern-collector-anyjs-pull-lines',
+            repoName: 'github.com/keshavsoft/pattern-collector-anyjs-pull-lines',
+            install: 'npm install pattern-collector-anyjs-pull-lines',
+            connections: ['extract']
+         },
+         'build-story': {
+            name: 'pattern-collector-anyjs-build-story',
+            version: 'v1.2.1',
+            desc: 'Exposes helper logic to match imports and router.use lines to produce route validation stories and audits.',
+            tags: ['pattern', 'routes', 'story', 'audit'],
+            scope: 'Direct Dependency (1st level)',
+            entry: 'import buildStory from \'pattern-collector-anyjs-build-story\'',
+            repo: 'https://github.com/keshavsoft/pattern-collector-anyjs-build-story',
+            repoName: 'github.com/keshavsoft/pattern-collector-anyjs-build-story',
+            install: 'npm install pattern-collector-anyjs-build-story',
+            connections: []
+         },
+         'extract': {
+            name: 'pattern-collector-anyjs-extract',
+            version: 'v1.2.2',
+            desc: 'A high-performance pattern collector and ESM import statement analyzer. It queries all matches and maps through them to extract structured captures.',
+            tags: ['pattern', 'regex', 'parser', 'esm', 'extractor'],
+            scope: 'Transitive Dependency (2nd level)',
+            entry: 'import getImportLines from \'pattern-collector-anyjs-extract\'',
+            repo: 'https://github.com/keshavsoft/pattern-collector-anyjs-extract',
+            repoName: 'github.com/keshavsoft/pattern-collector-anyjs-extract',
+            install: 'npm install pattern-collector-anyjs-extract',
+            connections: ['matches', 'base-regex']
+         },
+         'matches': {
+            name: 'pattern-collector-anyjs-matches',
+            version: 'v1.2.1',
+            desc: 'A utility package dedicated to fetching list of all matches from a regular expression query safely handling error blocks.',
+            tags: ['pattern', 'regex', 'parser', 'matches'],
+            scope: 'Transitive Dependency (3rd level)',
+            entry: 'import getAllMatches from \'pattern-collector-anyjs-matches\'',
+            repo: 'https://github.com/keshavsoft/pattern-collector-anyjs-matches',
+            repoName: 'github.com/keshavsoft/pattern-collector-anyjs-matches',
+            install: 'npm install pattern-collector-anyjs-matches',
+            connections: ['collector']
+         },
+         'base-regex': {
+            name: 'pattern-collector-base-regex',
+            version: 'v1.2.1',
+            desc: 'Exposes helper logic to extract captured variables (like aliases or relative folders) from a single code line.',
+            tags: ['pattern', 'regex', 'captures'],
+            scope: 'Transitive Dependency (3rd level)',
+            entry: 'import extractVariable from \'pattern-collector-base-regex\'',
+            repo: 'https://github.com/keshavsoft/pattern-collector-base-regex',
+            repoName: 'github.com/keshavsoft/pattern-collector-base-regex',
+            install: 'npm install pattern-collector-base-regex',
+            connections: []
+         },
+         'collector': {
+            name: 'pattern-collector',
+            version: 'v1.5.10',
+            desc: 'The core matching library. Collects all matching substrings by invoking Regexp.exec over the code contents recursively.',
+            tags: ['pattern', 'regex', 'core'],
+            scope: 'Transitive Dependency (4th level)',
+            entry: 'import patternCollector from \'pattern-collector\'',
+            repo: 'https://github.com/keshavsoft/pattern-collector',
+            repoName: 'github.com/keshavsoft/pattern-collector',
+            install: 'npm install pattern-collector',
+            connections: []
+         }
+      };
+
+      // Select Package and update right detail column
+      function selectPackage(key) {
+         // Highlight card
+         const keys = Object.keys(packageDb);
+         keys.forEach(k => {
+            const el = document.getElementById(`node-${k}`);
+            if (el) {
+               el.classList.toggle('selected', k === key);
+            }
+         });
+
+         const data = packageDb[key];
+         if (!data) return;
+
+         // Update DOM
+         document.getElementById('detail-name').innerText = data.name;
+         document.getElementById('detail-desc').innerText = data.desc;
+         document.getElementById('detail-version').innerText = data.version;
+         document.getElementById('detail-scope').innerText = data.scope;
+         document.getElementById('detail-entry').innerText = data.entry;
+         document.getElementById('detail-repo-link').href = data.repo;
+         document.getElementById('detail-repo-link').innerText = data.repoName;
+         document.getElementById('detail-install').innerText = data.install;
+
+         // Tags
+         const tagsDiv = document.getElementById('detail-tags');
+         tagsDiv.innerHTML = '';
+         data.tags.forEach(tag => {
+            const span = document.createElement('span');
+            span.className = 'tag';
+            span.innerText = tag;
+            tagsDiv.appendChild(span);
+         });
+
+         highlightLines(key);
+      }
+
+      // Draw SVG Connection Lines
+      function drawLines() {
+         const svg = document.getElementById('tree-svg');
+         svg.innerHTML = '';
+         
+         const rect = svg.getBoundingClientRect();
+
+         // Helper to calculate card anchor positions
+         function getAnchor(elementId, position) {
+            const el = document.getElementById(elementId);
+            if (!el) return null;
+            const elRect = el.getBoundingClientRect();
+            
+            if (position === 'bottom') {
+               return {
+                  x: elRect.left - rect.left + elRect.width / 2,
+                  y: elRect.bottom - rect.top
+               };
+            } else if (position === 'top') {
+               return {
+                  x: elRect.left - rect.left + elRect.width / 2,
+                  y: elRect.top - rect.top
+               };
+            }
+            return null;
+         }
+
+         // Line configuration mapping
+         const links = [
+            { from: 'root', to: 'pull-lines', id: 'line-root-pull-lines' },
+            { from: 'root', to: 'build-story', id: 'line-root-build-story' },
+            { from: 'pull-lines', to: 'extract', id: 'line-pull-lines-extract' },
+            { from: 'extract', to: 'matches', id: 'line-extract-matches' },
+            { from: 'extract', to: 'base-regex', id: 'line-extract-base-regex' },
+            { from: 'matches', to: 'collector', id: 'line-matches-collector' }
+         ];
+
+         links.forEach(link => {
+            const start = getAnchor(`node-${link.from}`, 'bottom');
+            const end = getAnchor(`node-${link.to}`, 'top');
+
+            if (start && end) {
+               const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+               
+               // Create curved bezier line
+               const midY = start.y + (end.y - start.y) / 2;
+               const d = `M ${start.x} ${start.y} C ${start.x} ${midY}, ${end.x} ${midY}, ${end.x} ${end.y}`;
+               
+               path.setAttribute('d', d);
+               path.setAttribute('class', 'connection-line');
+               path.setAttribute('id', link.id);
+               svg.appendChild(path);
+            }
+         });
+      }
+
+      // Highlight matching lines on selection
+      function highlightLines(activeKey) {
+         // Clear all highlights
+         const lines = document.querySelectorAll('.connection-line');
+         lines.forEach(l => l.classList.remove('highlighted'));
+
+         // Trace paths up/down from active key
+         if (activeKey === 'pull-lines') {
+            document.getElementById('line-root-pull-lines')?.classList.add('highlighted');
+         } else if (activeKey === 'build-story') {
+            document.getElementById('line-root-build-story')?.classList.add('highlighted');
+         } else if (activeKey === 'extract') {
+            document.getElementById('line-root-pull-lines')?.classList.add('highlighted');
+            document.getElementById('line-pull-lines-extract')?.classList.add('highlighted');
+         } else if (activeKey === 'matches') {
+            document.getElementById('line-root-pull-lines')?.classList.add('highlighted');
+            document.getElementById('line-pull-lines-extract')?.classList.add('highlighted');
+            document.getElementById('line-extract-matches')?.classList.add('highlighted');
+         } else if (activeKey === 'base-regex') {
+            document.getElementById('line-root-pull-lines')?.classList.add('highlighted');
+            document.getElementById('line-pull-lines-extract')?.classList.add('highlighted');
+            document.getElementById('line-extract-base-regex')?.classList.add('highlighted');
+         } else if (activeKey === 'collector') {
+            document.getElementById('line-root-pull-lines')?.classList.add('highlighted');
+            document.getElementById('line-pull-lines-extract')?.classList.add('highlighted');
+            document.getElementById('line-extract-matches')?.classList.add('highlighted');
+            document.getElementById('line-matches-collector')?.classList.add('highlighted');
+         }
+      }
+
+      // Search and Filter tree nodes
+      function filterTree() {
+         const query = document.getElementById('tree-search').value.toLowerCase();
+         
+         Object.keys(packageDb).forEach(key => {
+            const data = packageDb[key];
+            const node = document.getElementById(`node-${key}`);
+            
+            if (node) {
+               const matchesName = data.name.toLowerCase().includes(query);
+               const matchesTags = data.tags.some(t => t.toLowerCase().includes(query));
+               const matchesDesc = data.desc.toLowerCase().includes(query);
+
+               if (matchesName || matchesTags || matchesDesc || !query) {
+                  node.style.opacity = '1';
+                  node.style.filter = 'none';
+               } else {
+                  node.style.opacity = '0.25';
+                  node.style.filter = 'grayscale(80%)';
+               }
+            }
+         });
+      }
+
+      // Draw SVG lines on resizing and loading
+      window.onload = () => {
+         drawLines();
+         // Auto-select root package details
+         selectPackage('root');
+      };
+      
+      window.onresize = drawLines;
+   </script>
+</body>
+
+</html>
