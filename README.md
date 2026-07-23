@@ -172,6 +172,19 @@ console.log(story);
 
 ---
 
+## 🧹 Cleaning Workflow Runs
+
+To keep your GitHub Actions dashboard clean and free of old runs, you can delete them in bulk using the included utility script:
+
+1. Run the script:
+   ```bash
+   node clean-runs.js
+   ```
+2. Paste your GitHub **Personal Access Token (PAT)** with `actions:write` (or `repo`) permissions when prompted.
+
+---
+
 ## ⚖️ License
 
 MIT License. Designed with ❤️ by [KeshavSoft](https://github.com/keshavsoft).
+
