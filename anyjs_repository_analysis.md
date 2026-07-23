@@ -18,7 +18,7 @@ graph TD
     classDef external fill:#3f3f46,stroke:#71717a,stroke-width:2px,color:#d4d4d8,stroke-dasharray: 5 5;
 
     %% Nodes
-    PC["pattern-collector<br>(v1.5.10)"]:::active
+    PC["pattern-collector<br>(v1.5.11)"]:::active
     PCBR["pattern-collector-base-regex<br>(v1.2.1)"]:::active
     PCAJ["pattern-collector-anyjs<br>(v1.6.2)"]:::active
     PCAJE["pattern-collector-anyjs-extract<br>(v1.2.3)"]:::active
@@ -48,11 +48,11 @@ There are **6 repositories** currently loaded in the workspace. Below is a detai
 
 | Repository Folder | NPM Package Name | Version | Description | Workspace Dependencies |
 | :--- | :--- | :--- | :--- | :--- |
-| [pattern-collector](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector) | `pattern-collector` | `1.5.10` | A high-performance pattern collector and ESM import statement analyzer. | None |
+| [pattern-collector](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector) | `pattern-collector` | `1.5.11` | A high-performance pattern collector and ESM import statement analyzer. | None |
 | [pattern-collector-anyjs](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs) | `pattern-collector-anyjs` | `1.6.2` | Pull lines and build story for any JS from supplied regex. | [pattern-collector-anyjs-pull-lines](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs-pull-lines) (`^1.5.3`) |
 | [pattern-collector-anyjs-extract](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs-extract) | `pattern-collector-anyjs-extract` | `1.2.3` | A high-performance pattern collector and ESM import statement analyzer. | [pattern-collector-anyjs-matches](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs-matches) (`^1.2.1`) <br> [pattern-collector-base-regex](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-base-regex) (`^1.2.1`) |
-| [pattern-collector-anyjs-matches](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs-matches) | `pattern-collector-anyjs-matches` | `1.2.1` | Get all matches from regex. | [pattern-collector](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector) (`^1.5.10`) |
-| [pattern-collector-anyjs-pull-lines](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs-pull-lines) | `pattern-collector-anyjs-pull-lines` | `1.5.3` | Pull lines from content using supplied regex. | [pattern-collector-anyjs-extract](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs-extract) (`^1.2.2`) |
+| [pattern-collector-anyjs-matches](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs-matches) | `pattern-collector-anyjs-matches` | `1.2.1` | Get all matches from regex. | [pattern-collector](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector) (`^1.5.11`) |
+| [pattern-collector-anyjs-pull-lines](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs-pull-lines) | `pattern-collector-anyjs-pull-lines` | `1.5.3` | Pull lines from content using supplied regex. | [pattern-collector-anyjs-extract](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs-extract) (`^1.2.3`) |
 | [pattern-collector-base-regex](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-base-regex) | `pattern-collector-base-regex` | `1.2.1` | A high-performance pattern collector and ESM import statement analyzer. | None |
 
 > [!NOTE]
