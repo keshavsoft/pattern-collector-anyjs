@@ -15,6 +15,13 @@
     "pattern-collector-anyjs-build-story": "^1.2.1",
     "pattern-collector-anyjs-pull-lines": "^1.5.3"
   },
+  "workspaces": [
+    "../pattern-collector",
+    "../pattern-collector-anyjs-extract",
+    "../pattern-collector-anyjs-matches",
+    "../pattern-collector-anyjs-pull-lines",
+    "../pattern-collector-base-regex"
+  ],
   "type": "module",
   "exports": {
     ".": "./index.js"
