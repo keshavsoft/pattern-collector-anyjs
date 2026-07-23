@@ -168,9 +168,6 @@
          padding: 30px;
          transition: border-color 0.3s ease, transform 0.3s ease;
          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-         display: flex;
-         flex-direction: column;
-         justify-content: space-between;
       }
 
       .card:hover {
@@ -231,6 +228,73 @@
          border-color: var(--accent);
       }
 
+      /* Live playground styling */
+      .playground {
+         background: var(--bg-card);
+         border: 1px solid var(--border-color);
+         border-radius: 16px;
+         padding: 30px;
+         margin-top: 40px;
+         box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+      }
+
+      .playground h2 {
+         font-size: 22px;
+         margin-bottom: 10px;
+         color: var(--accent);
+      }
+
+      .playground-p {
+         font-size: 14px;
+         color: var(--text-secondary);
+         margin-bottom: 24px;
+         font-weight: 300;
+      }
+
+      .playground-inputs {
+         display: grid;
+         grid-template-columns: 1fr;
+         gap: 20px;
+         margin-bottom: 20px;
+      }
+
+      @media(min-width: 992px) {
+         .playground-inputs {
+            grid-template-columns: 1.5fr 1fr;
+         }
+      }
+
+      .input-group {
+         display: flex;
+         flex-direction: column;
+         gap: 8px;
+      }
+
+      .input-group label {
+         font-size: 13px;
+         font-weight: 600;
+         color: var(--text-muted);
+         text-transform: uppercase;
+         letter-spacing: 0.5px;
+      }
+
+      .input-group textarea, .input-group input {
+         background: #090d16;
+         border: 1px solid var(--border-color);
+         border-radius: 8px;
+         padding: 14px;
+         color: var(--text-primary);
+         font-family: 'Fira Code', monospace;
+         font-size: 13.5px;
+         width: 100%;
+         outline: none;
+         transition: border-color 0.2s ease;
+      }
+
+      .input-group textarea:focus, .input-group input:focus {
+         border-color: var(--accent);
+      }
+
       .btn {
          background: var(--accent-gradient);
          color: #020617;
@@ -243,8 +307,6 @@
          transition: opacity 0.2s ease, transform 0.1s ease;
          display: inline-block;
          width: 100%;
-         text-align: center;
-         text-decoration: none;
       }
 
       .btn:hover {
@@ -253,6 +315,46 @@
 
       .btn:active {
          transform: scale(0.98);
+      }
+
+      .result-container {
+         margin-top: 20px;
+         display: flex;
+         flex-direction: column;
+         gap: 8px;
+      }
+
+      .result-label {
+         font-size: 13px;
+         font-weight: 600;
+         color: var(--text-muted);
+         text-transform: uppercase;
+         letter-spacing: 0.5px;
+      }
+
+      .result-box {
+         background: #090d16;
+         border: 1px solid var(--border-color);
+         border-radius: 8px;
+         padding: 16px;
+         font-family: 'Fira Code', monospace;
+         font-size: 13px;
+         color: var(--text-primary);
+         min-height: 120px;
+         max-height: 450px;
+         overflow-y: auto;
+         white-space: pre-wrap;
+      }
+
+      .matched-item {
+         color: #38bdf8;
+         margin-bottom: 4px;
+         word-break: break-all;
+      }
+
+      .no-match {
+         color: var(--text-muted);
+         font-style: italic;
       }
 
       footer {
@@ -292,63 +394,25 @@
          </div>
       </div>
 
-      <!-- Playgrounds/Stories Directory Section -->
-      <h2 style="font-size: 24px; margin-bottom: 20px; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 10px;">🎮 Interactive Playgrounds</h2>
-      <div class="grid" style="margin-bottom: 50px;">
-         <!-- V2 Play Card -->
-         <div class="card">
-            <div>
-               <h2>🧩 Regex Pattern Collector</h2>
-               <p>Demonstrates global ES module import extraction from javascript code using custom regex filters.</p>
-            </div>
-            <a href="regex-collector.html" class="btn" style="margin-top: auto;">Explore Regex Collector &rarr;</a>
-         </div>
-
-         <!-- V3 Play Card -->
-         <div class="card" style="border: 2px solid var(--accent); box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);">
-            <div>
-               <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); font-weight: 700; margin-bottom: 8px;">★ Featured (Routes Audit)</div>
-               <h2>🚀 Express Route Auditor</h2>
-               <p>The primary core story: analyzes routes by mapping imports directly to their registered mount paths.</p>
-            </div>
-            <a href="routes-auditor.html" class="btn" style="margin-top: auto;">Explore Routes Auditor &rarr;</a>
-         </div>
-
-         <!-- V4 Play Card -->
-         <div class="card">
-            <div>
-               <h2>🎯 Targeted Line Auditor</h2>
-               <p>Uses strict line regular expressions to locate hook calls, middlewares, and application use lines.</p>
-            </div>
-            <a href="line-auditor.html" class="btn" style="margin-top: auto;">Explore Line Auditor &rarr;</a>
-         </div>
-      </div>
-
-      <h2 style="font-size: 24px; margin-bottom: 20px; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 10px;">📖 Technical Reference</h2>
-      
       <div class="grid">
          <!-- Card 1: Installation -->
          <div class="card">
-            <div>
-               <h2>📦 Installation</h2>
-               <p>Install the package into your project using npm:</p>
-               <pre><button class="copy-btn" onclick="navigator.clipboard.writeText('npm install pattern-collector-anyjs')">Copy</button><code>npm install pattern-collector-anyjs</code></pre>
-            </div>
+            <h2>📦 Installation</h2>
+            <p>Install the package into your project using npm:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button><code>npm install pattern-collector-anyjs</code></pre>
          </div>
 
          <!-- Card 2: Basic Usage -->
          <div class="card">
-            <div>
-               <h2>🛠️ Basic Usage</h2>
-               <p>Import and invoke the default function in your ES Modules:</p>
-               <pre><code>import patternCollector from 'pattern-collector-anyjs';
+            <h2>🛠️ Basic Usage</h2>
+            <p>Import and invoke the default function in your ES Modules:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Copy</button><code>import patternCollector from 'pattern-collector-anyjs';
 
 const story = patternCollector({
   fileContent: routesText,
   parseRegex: /import\s*\{[^}]*router\s+as\s+(\w+)[^}]*\}\s*from\s*['"]\.\/([^/]+)\/.*['"]/,
   searchRegex: /^[ \t]*import\b.*from\s+['"]\.[^'"]*['"];/gm
 });</code></pre>
-            </div>
          </div>
       </div>
 
@@ -437,10 +501,150 @@ graph TD
          </div>
       </div>
 
+      <!-- Playground section -->
+      <div class="playground">
+         <h2>🎮 Live Playground</h2>
+         <p class="playground-p">Input your routing code, target search expression, and variable extraction pattern to test route analysis mapping directly inside your browser.</p>
+         
+         <div class="playground-inputs">
+            <div class="input-group">
+               <label for="code-input">Source Code / Routes File Content</label>
+               <textarea id="code-input" rows="12">import express from 'express';
+
+import { router as routerFromv1 } from "./v1/routes.js";
+import { router as routerFromv2 } from "./v2/routes.js";
+
+const router = express.Router()
+
+router.use("/v1", routerFromv1);;
+
+export { router };
+</textarea>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+               <div class="input-group">
+                  <label for="search-regex-input">Search Regular Expression (locate import lines)</label>
+                  <input type="text" id="search-regex-input" value="^[ \t]*import\b.*from\s+['&quot;]\.[^'&quot;]*['&quot;];">
+               </div>
+               
+               <div class="input-group">
+                  <label for="parse-regex-input">Parse Regular Expression (extract variable & folder)</label>
+                  <input type="text" id="parse-regex-input" value="import\s*\{[^}]*router\s+as\s+(\w+)[^}]*\}\s*from\s*['&quot;]\.\/([^/]+)\/.*['&quot;]">
+               </div>
+               
+               <button class="btn" style="margin-top: 10px;" onclick="runCollector()">Analyze Router Mapping</button>
+            </div>
+         </div>
+
+         <div class="result-container">
+            <div class="result-label" style="margin-bottom: 10px;">Analysis Story Result (JSON)</div>
+            <div class="result-box" id="result-box">Click "Analyze Router Mapping" to see results.</div>
+         </div>
+      </div>
+
       <footer>
          <p>MIT Licensed | Developed by <a href="https://github.com/keshavsoft" target="_blank">KeshavSoft</a></p>
       </footer>
    </div>
+
+   <script>
+      function copyCode(btn) {
+         const code = btn.nextElementSibling.innerText;
+         navigator.clipboard.writeText(code).then(() => {
+            const originalText = btn.innerText;
+            btn.innerText = 'Copied!';
+            setTimeout(() => {
+               btn.innerText = originalText;
+            }, 1500);
+         });
+      }
+
+      function runCollector() {
+         const codeText = document.getElementById('code-input').value;
+         const searchRegexText = document.getElementById('search-regex-input').value;
+         const parseRegexText = document.getElementById('parse-regex-input').value;
+         const resultBox = document.getElementById('result-box');
+         
+         try {
+            const lines = codeText.split('\n');
+            const searchRegex = new RegExp(searchRegexText, 'm');
+            const parseRegex = new RegExp(parseRegexText);
+            
+            // 1. Extract import lines
+            const importLines = [];
+            lines.forEach((line, idx) => {
+               const cleanLine = line.replace(/[\r\n]/g, '');
+               if (searchRegex.test(cleanLine)) {
+                  const parts = cleanLine.match(parseRegex);
+                  if (parts) {
+                     importLines.push({
+                        variable: parts[1],
+                        folderName: parts[2],
+                        line: line.trim(),
+                        lineNumber: idx + 1
+                     });
+                  }
+               }
+            });
+
+            // 2. Extract use lines
+            const useLines = [];
+            const useRegex = /router\.use\s*\(\s*['"`]\/?([^'"`]+)['"`]\s*,\s*(\w+)/;
+            lines.forEach((line, idx) => {
+               const cleanLine = line.replace(/[\r\n]/g, '');
+               const parts = cleanLine.match(useRegex);
+               if (parts) {
+                  useLines.push({
+                     routeName: parts[1],
+                     variableName: parts[2],
+                     line: line.trim(),
+                     lineNumber: idx + 1
+                  });
+               }
+            });
+
+            // 3. Build Story Comparison mapping
+            const importMissInUse = importLines.map(loopImport => {
+               const findUser = useLines.find(element => element.variableName === loopImport.variable);
+               return {
+                  variable: loopImport.variable,
+                  folderName: loopImport.folderName,
+                  line: loopImport.line,
+                  lineNumber: loopImport.lineNumber,
+                  isFound: !!findUser,
+                  usedLine: findUser || undefined
+               };
+            });
+
+            const useMissInImport = useLines.map(loopUse => {
+               const findImport = importLines.find(element => element.variable === loopUse.variableName);
+               return {
+                  routeName: loopUse.routeName,
+                  variableName: loopUse.variableName,
+                  line: loopUse.line,
+                  lineNumber: loopUse.lineNumber,
+                  isFound: !!findImport,
+                  usedLine: findImport || undefined
+               };
+            });
+
+            const story = {
+               importLines,
+               useLines,
+               importMissInUse,
+               useMissInImport
+            };
+
+            resultBox.innerText = JSON.stringify(story, null, 2);
+         } catch (error) {
+            resultBox.innerHTML = `<span style="color: #ef4444;">RegExp/Processing Error: ${error.message}</span>`;
+         }
+      }
+      
+      // Auto run playground on page load
+      window.onload = () => runCollector();
+   </script>
 </body>
 
 </html>
