@@ -8,6 +8,7 @@
 🔗 **Quick Links:**
 *   📦 **NPM Registry**: [npmjs.com/package/pattern-collector-anyjs](https://www.npmjs.com/package/pattern-collector-anyjs)
 *   💻 **GitHub Repo**: [github.com/keshavsoft/pattern-collector-anyjs](https://github.com/keshavsoft/pattern-collector-anyjs)
+*   🌐 **Live Documentation**: [keshavsoft.github.io/pattern-collector-anyjs](https://keshavsoft.github.io/pattern-collector-anyjs/)
 
 ---
 
@@ -23,6 +24,13 @@
 *   **🛣️ Router Registration Audit**: Extracts `router.use()` routes and matching variable names.
 *   **🔍 Validation Checks**: Cross-references imports against usage to generate detailed reports of unused or missing declarations.
 *   **📦 Extensible & Versioned**: Uses an internal folder-based versioning structure for core modules.
+
+---
+
+## 🔗 Dependency Chain
+
+*   [`pattern-collector-anyjs-pull-lines`](https://www.npmjs.com/package/pattern-collector-anyjs-pull-lines) - listed in [`package.json`](package.json) as `^1.5.3`.
+*   [`pattern-collector-routesjs-build-story`](https://www.npmjs.com/package/pattern-collector-routesjs-build-story) - listed in [`package.json`](package.json) as `^1.4.1`.
 
 ---
 

@@ -11,23 +11,7 @@
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
    
-   <!-- Mermaid Diagram Support -->
-   <script type="module">
-      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-      mermaid.initialize({
-         startOnLoad: true,
-         theme: 'dark',
-         securityLevel: 'loose',
-         themeVariables: {
-            background: '#090d16',
-            primaryColor: '#0f172a',
-            primaryTextColor: '#f8fafc',
-            lineColor: '#38bdf8',
-            secondaryColor: '#1e293b',
-            tertiaryColor: '#020617'
-         }
-      });
-   </script>
+
 
    <style>
       :root {
@@ -276,6 +260,7 @@
             <span>pattern-collector-anyjs</span> 🔍
          </a>
          <div class="nav-links">
+            <a href="dependencies.html">Dependency Explorer</a>
             <a href="https://www.npmjs.com/package/pattern-collector-anyjs" target="_blank">NPM Package</a>
             <a href="https://github.com/keshavsoft/pattern-collector-anyjs" target="_blank">GitHub</a>
          </div>
@@ -394,48 +379,7 @@ const story = patternCollector({
          </div>
       </div>
 
-      <div class="grid">
-         <!-- Card 4: Architecture & Internal Dependencies -->
-         <div class="card" style="grid-column: 1 / -1;">
-            <h2>📦 Architecture & Package Dependencies</h2>
-            <p>The library is built as part of a modular, versioned ecosystem. Below is the dependency propagation flow showing how execution traverses the internal packages:</p>
-            
-            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px 0; background: #090d16; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px 10px; overflow-x: auto; width: 100%;">
-               <div class="mermaid" style="width: 100%; max-width: 750px; background: transparent;">
-graph TD
-    pc_anyjs["pattern-collector-anyjs (1.3.2)"]
-    pc_pull_lines["pattern-collector-anyjs-pull-lines (1.3.1)"]
-    pc_build_story["pattern-collector-routesjs-build-story (1.4.1)"]
-    pc_import_extract["pattern-collector-anyjs-import-extract (1.3.1)"]
-    pc_use_extract["pattern-collector-routesjs-use-extract (1.5.4)"]
-    pc_import["pattern-collector-anyjs-import (1.3.1)"]
-    pc_base_regex["pattern-collector-base-regex (1.2.1)"]
-    pc_use["pattern-collector-routesjs-use (1.4.4)"]
-    pc["pattern-collector (1.5.10)"]
 
-    pc_anyjs --> pc_pull_lines
-    pc_anyjs --> pc_build_story
-    
-    pc_pull_lines --> pc_import_extract
-    pc_pull_lines --> pc_use_extract
-    
-    pc_import_extract --> pc_import
-    pc_import_extract --> pc_base_regex
-    
-    pc_import --> pc
-    
-    pc_use_extract --> pc_use
-    pc_use --> pc
-
-    style pc_anyjs fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#f8fafc
-    style pc fill:#020617,stroke:#818cf8,stroke-width:1px,color:#cbd5e1
-    style pc_base_regex fill:#020617,stroke:#818cf8,stroke-width:1px,color:#cbd5e1
-    style pc_build_story fill:#020617,stroke:#818cf8,stroke-width:1px,color:#cbd5e1
-    classDef default fill:#0f172a,stroke:#334155,color:#f8fafc;
-               </div>
-            </div>
-         </div>
-      </div>
 
       <footer>
          <p>MIT Licensed | Developed by <a href="https://github.com/keshavsoft" target="_blank">KeshavSoft</a></p>

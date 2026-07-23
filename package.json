@@ -1,6 +1,6 @@
 {
   "name": "pattern-collector-anyjs",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "pull lines and build story for any js from supplied regex",
   "keywords": [
     "pattern",
