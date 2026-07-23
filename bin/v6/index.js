@@ -1,5 +1,5 @@
 import pullImportLines from "pattern-collector-anyjs-pull-lines";
-import buildStory from "pattern-collector-routesjs-build-story";
+import buildStory from "pattern-collector-anyjs-build-story";
 
 // convertToRegExp converts regex strings to native RegExp objects.
 // This is necessary to support configurations loaded from JSON files,

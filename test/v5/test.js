@@ -3,12 +3,11 @@ import path from 'path';
 
 import defaultFunc from '../../index.js';
 
+import extractRegex from './extractRegex.js';
+
 const filePath = path.join(process.cwd(), "routes.js");
 
 const fileContent = fs.readFileSync(filePath, 'utf8');
-
-const regexPath = path.join(process.cwd(), "extractRegex.json");
-const extractRegex = JSON.parse(fs.readFileSync(regexPath, 'utf8'));
 
 const k1 = defaultFunc({
     fileContent,

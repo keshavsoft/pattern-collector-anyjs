@@ -1,6 +1,6 @@
 {
   "name": "pattern-collector-anyjs",
-  "version": "1.5.3",
+  "version": "1.6.1",
   "description": "pull lines and build story for any js from supplied regex",
   "keywords": [
     "pattern",
@@ -12,8 +12,8 @@
     "extractor"
   ],
   "dependencies": {
-    "pattern-collector-anyjs-pull-lines": "^1.5.3",
-    "pattern-collector-routesjs-build-story": "^1.4.1"
+    "pattern-collector-anyjs-build-story": "^1.2.1",
+    "pattern-collector-anyjs-pull-lines": "^1.5.3"
   },
   "type": "module",
   "exports": {

@@ -30,7 +30,7 @@
 ## 🔗 Dependency Chain
 
 *   [`pattern-collector-anyjs-pull-lines`](https://www.npmjs.com/package/pattern-collector-anyjs-pull-lines) - listed in [`package.json`](package.json) as `^1.5.3`.
-*   [`pattern-collector-routesjs-build-story`](https://www.npmjs.com/package/pattern-collector-routesjs-build-story) - listed in [`package.json`](package.json) as `^1.4.1`.
+*   [`pattern-collector-anyjs-build-story`](https://www.npmjs.com/package/pattern-collector-anyjs-build-story) - listed in [`package.json`](package.json) as `^1.2.1`.
 
 ---
 

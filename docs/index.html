@@ -381,6 +381,31 @@ const story = patternCollector({
 
 
 
+      <div class="grid">
+         <!-- Card 5: JSON vs JS Module configurations -->
+         <div class="card" style="grid-column: 1 / -1;">
+            <h2>⚡ Regex Configuration: JSON vs JS Modules</h2>
+            <p>Storing regular expressions in standard configuration files presents a design trade-off between strict JSON structure and native JS syntax:</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 15px;">
+               <div style="background: rgba(244, 63, 94, 0.05); border: 1px solid rgba(244, 63, 94, 0.2); padding: 20px; border-radius: 8px;">
+                  <h3 style="color: #f43f5e; font-size: 15px; margin-bottom: 10px;">📄 JSON Configurations (.json)</h3>
+                  <p style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.6;">
+                     JSON files cannot store native RegExp literals, only plain strings. This forces developers to double-escape special characters (e.g., <code>\\s*</code> instead of <code>\s*</code>) and requires the library to dynamically parse them into RegExp objects at runtime using <code>new RegExp()</code>.
+                  </p>
+               </div>
+               <div style="background: rgba(52, 211, 153, 0.05); border: 1px solid rgba(52, 211, 153, 0.2); padding: 20px; border-radius: 8px;">
+                  <h3 style="color: #34d399; font-size: 15px; margin-bottom: 10px;">⚡ JS Module Configurations (.js)</h3>
+                  <p style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.6;">
+                     Renaming configurations to JS modules (e.g. <code>extractRegex.js</code>) allows you to export native RegExp literals directly. This removes the double-escaping overhead, avoids runtime string-to-regexp compilation, and allows clean syntax like <code>/^[ \t]*import\b/gm</code>.
+                  </p>
+               </div>
+            </div>
+            <div style="margin-top: 20px; font-size: 13.5px; color: var(--text-muted); border-top: 1px dashed var(--border-color); padding-top: 15px;">
+               💡 <strong>Note on Compatibility:</strong> To support both worlds, the internal parser still features a robust <code>convertToRegExp</code> check. It automatically converts regex strings to RegExp objects on the fly, allowing consumers to use whichever setup works best for their workflow.
+            </div>
+         </div>
+      </div>
+
       <footer>
          <p>MIT Licensed | Developed by <a href="https://github.com/keshavsoft" target="_blank">KeshavSoft</a></p>
       </footer>
