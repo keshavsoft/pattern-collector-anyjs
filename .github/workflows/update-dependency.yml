@@ -34,7 +34,7 @@ jobs:
 
       - name: Update dependencies
         run: |
-          npm install pattern-collector-routesjs-pull-lines@latest pattern-collector-anyjs-extract@latest pattern-collector-anyjs-pull-lines-import@latest
+          npm install pattern-collector-anyjs-build-story@latest pattern-collector-anyjs-pull-lines@latest
 
       - name: Commit and push changes
         id: git-push
@@ -46,10 +46,16 @@ jobs:
             echo "has_changes=false" >> $GITHUB_OUTPUT
           else
             npm version patch --no-git-tag-version
-            npm publish
             git add package.json package-lock.json
             git commit -m "chore: update dependencies and bump version"
             git push origin main
+            PACKAGE_NAME=$(node -p "JSON.parse(require('fs').readFileSync('package.json', 'utf8')).name")
+            PACKAGE_VERSION=$(node -p "JSON.parse(require('fs').readFileSync('package.json', 'utf8')).version")
+            if npm view "$PACKAGE_NAME@$PACKAGE_VERSION" version >/dev/null 2>&1; then
+              echo "$PACKAGE_NAME@$PACKAGE_VERSION is already published; skipping npm publish"
+            else
+              npm publish
+            fi
             echo "has_changes=true" >> $GITHUB_OUTPUT
           fi
         env:
