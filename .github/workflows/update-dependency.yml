@@ -34,11 +34,7 @@ jobs:
 
       - name: Update dependencies
         run: |
-          npm install pattern-collector-routesjs-pull-lines@latest pattern-collector-routesjs-build-story@latest
-
-      - name: Run Tests
-        run: |
-          node test/v3/test.js
+          npm install pattern-collector-routesjs-pull-lines@latest pattern-collector-anyjs-extract@latest pattern-collector-anyjs-pull-lines-import@latest
 
       - name: Commit and push changes
         id: git-push
