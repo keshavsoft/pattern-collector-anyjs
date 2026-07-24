@@ -18,21 +18,27 @@ graph TD
     classDef external fill:#3f3f46,stroke:#71717a,stroke-width:2px,color:#d4d4d8,stroke-dasharray: 5 5;
 
     %% Nodes
-    PC["pattern-collector<br>(v1.5.11)"]:::active
-    PCBR["pattern-collector-base-regex<br>(v1.2.1)"]:::active
-    PCAJ["pattern-collector-anyjs<br>(v1.6.2)"]:::active
-    PCAJE["pattern-collector-anyjs-extract<br>(v1.2.3)"]:::active
-    PCAJM["pattern-collector-anyjs-matches<br>(v1.2.1)"]:::active
-    PCAJPL["pattern-collector-anyjs-pull-lines<br>(v1.5.3)"]:::active
+    PCAJ["pattern-collector-anyjs<br>(v1.7.3)"]:::active
+    PCAJPL["pattern-collector-anyjs-pull-lines<br>(v1.8.1)"]:::active
+    PCAJPLC["pattern-collector-anyjs-pull-lines-consumption<br>(v1.2.1)"]:::active
+    PCAJPLI["pattern-collector-anyjs-pull-lines-import<br>(v1.9.2)"]:::active
+    PCAJE["pattern-collector-anyjs-extract<br>(v1.4.6)"]:::active
+    PCAJM["pattern-collector-anyjs-matches<br>(v1.3.8)"]:::active
     
     %% External Nodes
-    PCAJBS["pattern-collector-anyjs-build-story<br>(^1.2.1)"]:::external
+    PCAJBS["pattern-collector-anyjs-build-story<br>(^1.3.2)"]:::external
+    PCBR["pattern-collector-base-regex<br>(^1.3.2)"]:::external
+    PC["pattern-collector<br>(^1.5.19)"]:::external
 
     %% Edges
     PCAJ -->|depends on| PCAJBS
     PCAJ -->|depends on| PCAJPL
     
-    PCAJPL -->|depends on| PCAJE
+    PCAJPL -->|depends on| PCAJPLC
+    PCAJPL -->|depends on| PCAJPLI
+    
+    PCAJPLC -->|depends on| PCAJE
+    PCAJPLI -->|depends on| PCAJE
     
     PCAJE -->|depends on| PCAJM
     PCAJE -->|depends on| PCBR
@@ -48,15 +54,15 @@ There are **6 repositories** currently loaded in the workspace. Below is a detai
 
 | Repository Folder | NPM Package Name | Version | Description | Workspace Dependencies |
 | :--- | :--- | :--- | :--- | :--- |
-| [pattern-collector](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector) | `pattern-collector` | `1.5.11` | A high-performance pattern collector and ESM import statement analyzer. | None |
-| [pattern-collector-anyjs](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs) | `pattern-collector-anyjs` | `1.6.2` | Pull lines and build story for any JS from supplied regex. | [pattern-collector-anyjs-pull-lines](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs-pull-lines) (`^1.5.3`) |
-| [pattern-collector-anyjs-extract](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs-extract) | `pattern-collector-anyjs-extract` | `1.2.3` | A high-performance pattern collector and ESM import statement analyzer. | [pattern-collector-anyjs-matches](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs-matches) (`^1.2.1`) <br> [pattern-collector-base-regex](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-base-regex) (`^1.2.1`) |
-| [pattern-collector-anyjs-matches](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs-matches) | `pattern-collector-anyjs-matches` | `1.2.1` | Get all matches from regex. | [pattern-collector](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector) (`^1.5.11`) |
-| [pattern-collector-anyjs-pull-lines](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs-pull-lines) | `pattern-collector-anyjs-pull-lines` | `1.5.3` | Pull lines from content using supplied regex. | [pattern-collector-anyjs-extract](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs-extract) (`^1.2.3`) |
-| [pattern-collector-base-regex](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-base-regex) | `pattern-collector-base-regex` | `1.2.1` | A high-performance pattern collector and ESM import statement analyzer. | None |
+| [pattern-collector-anyjs](file:///d:/KeshavSoftRepos/2026-07-24/ks2/pattern-collector-anyjs) | `pattern-collector-anyjs` | `1.7.3` | Pull lines and build story for any JS from supplied regex. | [pattern-collector-anyjs-pull-lines](file:///d:/KeshavSoftRepos/2026-07-24/ks2/pattern-collector-anyjs-pull-lines) (`^1.8.1`) |
+| [pattern-collector-anyjs-pull-lines](file:///d:/KeshavSoftRepos/2026-07-24/ks2/pattern-collector-anyjs-pull-lines) | `pattern-collector-anyjs-pull-lines` | `1.8.1` | Pull lines from content using supplied regex. | [pattern-collector-anyjs-pull-lines-consumption](file:///d:/KeshavSoftRepos/2026-07-24/ks2/pattern-collector-anyjs-pull-lines-consumption) (`^1.2.1`) <br> [pattern-collector-anyjs-pull-lines-import](file:///d:/KeshavSoftRepos/2026-07-24/ks2/pattern-collector-anyjs-pull-lines-import) (`^1.9.2`) |
+| [pattern-collector-anyjs-pull-lines-consumption](file:///d:/KeshavSoftRepos/2026-07-24/ks2/pattern-collector-anyjs-pull-lines-consumption) | `pattern-collector-anyjs-pull-lines-consumption` | `1.2.1` | Scans target source files to locate route consumption declarations and mount path registrations. | [pattern-collector-anyjs-extract](file:///d:/KeshavSoftRepos/2026-07-24/ks2/pattern-collector-anyjs-extract) (`^1.4.6`) |
+| [pattern-collector-anyjs-pull-lines-import](file:///d:/KeshavSoftRepos/2026-07-24/ks2/pattern-collector-anyjs-pull-lines-import) | `pattern-collector-anyjs-pull-lines-import` | `1.9.2` | Scans target source files to locate route module import declarations and their original file paths. | [pattern-collector-anyjs-extract](file:///d:/KeshavSoftRepos/2026-07-24/ks2/pattern-collector-anyjs-extract) (`^1.4.6`) |
+| [pattern-collector-anyjs-extract](file:///d:/KeshavSoftRepos/2026-07-24/ks2/pattern-collector-anyjs-extract) | `pattern-collector-anyjs-extract` | `1.4.6` | A high-performance pattern extractor that scans text files and extracts structured group details from matches. | [pattern-collector-anyjs-matches](file:///d:/KeshavSoftRepos/2026-07-24/ks2/pattern-collector-anyjs-matches) (`^1.3.8`) <br> `pattern-collector-base-regex` (external, `^1.3.2`) |
+| [pattern-collector-anyjs-matches](file:///d:/KeshavSoftRepos/2026-07-24/ks2/pattern-collector-anyjs-matches) | `pattern-collector-anyjs-matches` | `1.3.8` | Safe wrapper helper. Safely queries matching occurrences for RegExp filters in files while gracefully handling potential parse anomalies. | `pattern-collector` (external, `^1.5.19`) |
 
 > [!NOTE]
-> The dependency `pattern-collector-anyjs-build-story` referenced by `pattern-collector-anyjs` is an external dependency and is not present locally in this workspace.
+> The dependencies `pattern-collector-anyjs-build-story`, `pattern-collector-base-regex`, and `pattern-collector` are external dependencies and are not present locally in this workspace folder.
 
 ---
 
@@ -64,9 +70,9 @@ There are **6 repositories** currently loaded in the workspace. Below is a detai
 
 You can inspect the configuration files for each package directly:
 
-- **pattern-collector:** [package.json](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector/package.json)
-- **pattern-collector-anyjs:** [package.json](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs/package.json)
-- **pattern-collector-anyjs-extract:** [package.json](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs-extract/package.json)
-- **pattern-collector-anyjs-matches:** [package.json](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs-matches/package.json)
-- **pattern-collector-anyjs-pull-lines:** [package.json](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-anyjs-pull-lines/package.json)
-- **pattern-collector-base-regex:** [package.json](file:///d:/KeshavSoftRepos/2026-07-23(2)/pattern-collector-base-regex/package.json)
+- **pattern-collector-anyjs:** [package.json](file:///d:/KeshavSoftRepos/2026-07-24/ks2/pattern-collector-anyjs/package.json)
+- **pattern-collector-anyjs-pull-lines:** [package.json](file:///d:/KeshavSoftRepos/2026-07-24/ks2/pattern-collector-anyjs/package.json)
+- **pattern-collector-anyjs-pull-lines-consumption:** [package.json](file:///d:/KeshavSoftRepos/2026-07-24/ks2/pattern-collector-anyjs-pull-lines-consumption/package.json)
+- **pattern-collector-anyjs-pull-lines-import:** [package.json](file:///d:/KeshavSoftRepos/2026-07-24/ks2/pattern-collector-anyjs-pull-lines-import/package.json)
+- **pattern-collector-anyjs-extract:** [package.json](file:///d:/KeshavSoftRepos/2026-07-24/ks2/pattern-collector-anyjs-extract/package.json)
+- **pattern-collector-anyjs-matches:** [package.json](file:///d:/KeshavSoftRepos/2026-07-24/ks2/pattern-collector-anyjs-matches/package.json)
