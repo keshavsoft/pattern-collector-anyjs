@@ -13,7 +13,7 @@
   ],
   "dependencies": {
     "pattern-collector-anyjs-build-story": "^1.3.2",
-    "pattern-collector-anyjs-pull-lines": "^1.6.1"
+    "pattern-collector-anyjs-pull-lines": "^1.7.3"
   },
   "workspaces": [
     "../pattern-collector",
