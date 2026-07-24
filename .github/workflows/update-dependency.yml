@@ -64,7 +64,7 @@ jobs:
       - name: Create Summary
         run: |
           echo "### 🔄 Dependency Update Summary" >> $GITHUB_STEP_SUMMARY
-          echo "* **Repository**: [${{ github.repository }}](https://github.com/${{ github.repository }})" >> $GITHUB_STEP_SUMMARY
+          echo "* **Repository**: <a href=\"https://github.com/${{ github.repository }}\" target=\"_blank\">${{ github.repository }}</a>" >> $GITHUB_STEP_SUMMARY
           echo "* **Status**: ✅ Dependency update checked/run successfully" >> $GITHUB_STEP_SUMMARY
           echo "* **Changes Pushed**: \`${{ steps.git-push.outputs.has_changes }}\`" >> $GITHUB_STEP_SUMMARY
 
