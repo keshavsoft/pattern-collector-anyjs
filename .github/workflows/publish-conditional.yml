@@ -33,7 +33,7 @@ jobs:
           
           echo "### 🚀 NPM Publication Summary" >> $GITHUB_STEP_SUMMARY
           echo "* **Package**: \`$PACKAGE_NAME\`" >> $GITHUB_STEP_SUMMARY
-          echo "* **Git Repository**: [https://github.com/${{ github.repository }}](https://github.com/${{ github.repository }})" >> $GITHUB_STEP_SUMMARY
+          echo "* **Git Repository**: <a href=\"https://github.com/${{ github.repository }}\" target=\"_blank\">https://github.com/${{ github.repository }}</a>" >> $GITHUB_STEP_SUMMARY
           echo "* **Before Publish Version**: \`$BEFORE_VERSION\`" >> $GITHUB_STEP_SUMMARY
           
           if npm view "${PACKAGE_NAME}@${PACKAGE_VERSION}" version >/dev/null 2>&1; then
@@ -47,7 +47,7 @@ jobs:
             echo "* **Status**: ✅ Successfully Published to NPM" >> $GITHUB_STEP_SUMMARY
             echo "was_published=true" >> $GITHUB_OUTPUT
           fi
-          echo "* **Registry Link**: [https://www.npmjs.com/package/$PACKAGE_NAME](https://www.npmjs.com/package/$PACKAGE_NAME)" >> $GITHUB_STEP_SUMMARY
+          echo "* **Registry Link**: <a href=\"https://www.npmjs.com/package/$PACKAGE_NAME\" target=\"_blank\">https://www.npmjs.com/package/$PACKAGE_NAME</a>" >> $GITHUB_STEP_SUMMARY
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -56,7 +56,17 @@ jobs:
     if: needs.publish.outputs.was_published == 'true'
     runs-on: ubuntu-latest
     steps:
-      - name: No dependents to notify
+      - name: Notify dependents
         run: |
           echo "### 🔔 Dependency Notification Status" >> $GITHUB_STEP_SUMMARY
-          echo "* **Status**: ℹ️ No dependents to notify." >> $GITHUB_STEP_SUMMARY
+          RESPONSE1=$(curl -s -w "%{http_code}" -o resp1.json -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.REPO_DISPATCH_TOKEN }}" \
+            https://api.github.com/repos/keshavsoft/express-fix-any-js-from-for-import/dispatches \
+            -d '{"event_type":"dependency-updated"}')
+          if [ "$RESPONSE1" = "204" ]; then
+            echo "* **<a href=\"https://github.com/keshavsoft/express-fix-any-js-from-for-import\" target=\"_blank\">express-fix-any-js-from-for-import</a>**: ✅ Dispatched successfully (HTTP 204)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "* **<a href=\"https://github.com/keshavsoft/express-fix-any-js-from-for-import\" target=\"_blank\">express-fix-any-js-from-for-import</a>**: ❌ Failed to dispatch (HTTP $RESPONSE1)" >> $GITHUB_STEP_SUMMARY
+            cat resp1.json >> $GITHUB_STEP_SUMMARY
+          fi

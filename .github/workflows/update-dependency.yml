@@ -73,7 +73,17 @@ jobs:
     if: needs.update-dependency.outputs.has_changes == 'true'
     runs-on: ubuntu-latest
     steps:
-      - name: No dependents to notify
+      - name: Notify dependents
         run: |
           echo "### 🔔 Dependency Notification Status" >> $GITHUB_STEP_SUMMARY
-          echo "* **Status**: ℹ️ No dependents to notify." >> $GITHUB_STEP_SUMMARY
+          RESPONSE1=$(curl -s -w "%{http_code}" -o resp1.json -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.REPO_DISPATCH_TOKEN }}" \
+            https://api.github.com/repos/keshavsoft/express-fix-any-js-from-for-import/dispatches \
+            -d '{"event_type":"dependency-updated"}')
+          if [ "$RESPONSE1" = "204" ]; then
+            echo "* **<a href=\"https://github.com/keshavsoft/express-fix-any-js-from-for-import\" target=\"_blank\">express-fix-any-js-from-for-import</a>**: ✅ Dispatched successfully (HTTP 204)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "* **<a href=\"https://github.com/keshavsoft/express-fix-any-js-from-for-import\" target=\"_blank\">express-fix-any-js-from-for-import</a>**: ❌ Failed to dispatch (HTTP $RESPONSE1)" >> $GITHUB_STEP_SUMMARY
+            cat resp1.json >> $GITHUB_STEP_SUMMARY
+          fi
