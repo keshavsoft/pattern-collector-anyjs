@@ -25,7 +25,7 @@ const startFunc = ({ fileContent, extractRegex, inShowLog,
     const importRegex = convertToRegExp(extractRegex.importRegex);
     const consumptionRegex = convertToRegExp(extractRegex.consumptionRegex);
 
-    const { importLines, useLines } = pullImportLines({
+    const { importLines, useLines, allLinesWithStory } = pullImportLines({
         fileContent,
         importRegex,
         consumptionRegex,
@@ -40,7 +40,10 @@ const startFunc = ({ fileContent, extractRegex, inShowLog,
     if (inShowLog) console.log("story : ", story);
     // console.log("aaaaaaaa : ", JSON.stringify(story, null, 4));
 
-    return story;
+    return {
+        ...story,
+        allLinesWithStory
+    };
 };
 
 export default startFunc;
