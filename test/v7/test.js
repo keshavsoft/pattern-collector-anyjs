@@ -15,9 +15,18 @@ const fileContent = fs.readFileSync(appJsPath, 'utf8');
 const k1 = defaultFunc({
     fileContent,
     extractRegex,
-    showLog: false,
-    showLogStep1: false,
-    showLogStep2: false
+    showLog: {
+        keysOnly: false,
+        withValues: false
+    },
+    showLogStep1: {
+        keysOnly: false,
+        withValues: false
+    },
+    showLogStep2: {
+        keysOnly: false,
+        withValues: false
+    }
 });
 
 console.log("ssssssssss : ", k1);
