@@ -6,5 +6,8 @@ export default {
     consumptionRegex: {
         parseRegex: /router\.use\s*\(\s*['"`]\/?([^'"`]+)['"`]\s*,\s*(\w+)/,
         searchRegex: /^[ \t]*router\.use\b.*?;/gm
+    },
+    exportRegex: {
+        searchRegex: /export\s*\{\s*(\w+)\s*\}\s*;?/gm
     }
 };

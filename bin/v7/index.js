@@ -30,11 +30,12 @@ const startFunc = ({ fileContent, extractRegex, showLog,
 
     const importRegex = convertToRegExp(extractRegex.importRegex);
     const consumptionRegex = convertToRegExp(extractRegex.consumptionRegex);
+    const exportRegex = convertToRegExp(extractRegex.exportRegex);
 
-    const { importLines, useLines, allLines } = pullImportLines({
+    const { importLines, useLines, allLines, exportLines } = pullImportLines({
         fileContent,
         importRegex,
-        consumptionRegex,
+        consumptionRegex, exportRegex,
         showLog: showLogStep1,
         showLogStep1: showLogStep2
     });
@@ -42,9 +43,10 @@ const startFunc = ({ fileContent, extractRegex, showLog,
     if (showLog?.withValues) console.log(`${packageJson.name}-pullImportLines-importLines: : `, importLines);
     if (showLog?.withValues) console.log(`${packageJson.name}-pullImportLines-useLines: : `, useLines);
     if (showLog?.withValues) console.log(`${packageJson.name}-pullImportLines-allLines: : `, allLines);
+    if (showLog?.withValues) console.log(`${packageJson.name}-pullImportLines-exportLines: : `, exportLines);
     // console.log(`${packageJson.name}-pullImportLines-allLines: : `, allLines);
 
-    const story = buildStory({ importLines, useLines, allLines });
+    const story = buildStory({ importLines, useLines, allLines, exportLines });
 
     // if (inShowLog) console.log("story : ", story);
     // console.log("aaaaaaaa : ", JSON.stringify(story, null, 4));
