@@ -30,4 +30,4 @@ const k1 = defaultFunc({
 });
 
 // console.log("ssssssssss : ", k1);
-console.log("ssssssssss : ", Object.keys(k1));
+console.log("ssssssssss : ", Object.keys(k1), k1.summary);
