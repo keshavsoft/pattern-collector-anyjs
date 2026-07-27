@@ -17,7 +17,7 @@ const k1 = defaultFunc({
     extractRegex,
     showLog: {
         keysOnly: false,
-        withValues: true
+        withValues: false
 
     },
     showLogStep1: {
